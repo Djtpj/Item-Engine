@@ -189,6 +189,11 @@ public abstract class Item implements Listener {
         return meta;
     }
 
+    // Returns the name of this item
+    public String getName() {
+        return this.name;
+    }
+
     public boolean isUnbreakable() {
         return isUnbreakable;
     }
@@ -218,6 +223,8 @@ public abstract class Item implements Listener {
         this.item.setItemMeta(meta);
     }
 
+    // Adds lore
+    // However, does some fancy color stuff, so the lore can all be one color if you so desire
     protected void addLore(String addedLore) {
 
         if (defaultLoreColor != null){
@@ -227,14 +234,17 @@ public abstract class Item implements Listener {
             this.lore.add(addedLore);
         }
 
+        // Item Meta updates
         this.meta.setLore(lore);
         this.item.setItemMeta(meta);
         this.hasLore = true;
     }
 
+    // Adds lore
+    // However, you can override the default lore color if you want
     protected void addLore(String addedLore, Boolean overrideColor){
 
-        if (defaultLoreColor != null && overrideColor) {
+        if (defaultLoreColor != null && !overrideColor) {
             this.lore.add(defaultLoreColor + addedLore);
         }
         else {
@@ -243,6 +253,7 @@ public abstract class Item implements Listener {
 
         this.meta.setLore(lore);
         this.item.setItemMeta(meta);
+        this.hasLore = true;
 
     }
 
@@ -252,37 +263,41 @@ public abstract class Item implements Listener {
         this.item.setItemMeta(meta);
     }
 
+    // Sets whether or not to do the right click action
     protected void setDoRightClick(boolean doRightClick) {
         this.doRightClick = doRightClick;
     }
 
+    // Sets whether or not to do the left click action
     protected void setLeftClickEvent(boolean leftClickEvent) {
         this.doLeftClick = leftClickEvent;
     }
 
+    // Sets whether or not to do the protective action
     protected void setProtective(boolean damageTakenWhileHolding) {
         this.isProtective = damageTakenWhileHolding;
     }
 
+    // Sets whether or not to do the shift right click action
     protected void setDoShiftRightClick(boolean bool) {
 
         this.doShiftRightClick = bool;
 
     }
 
+    // Sets whether or not to do the shift left click action
     protected void setDoShiftLeftClick(boolean bool) {
         this.doShiftLeftClick = bool;
     }
 
-    public String getName() {
-        return this.name;
-    }
-
+    // Sets the default lore color
     protected void setDefaultLoreColor(ChatColor chatColor) {
         this.defaultLoreColor = chatColor;
     }
 
+    // Returns whether or not the provided item is the same as this item
     public boolean isSimilar(ItemStack similarItem) {
+        // Errors
         if (similarItem.getItemMeta() == null && meta == null) {
             Manager.plugin.getLogger().log(Level.SEVERE, "ERROR OCCURED WHILE USING 'isSimilar', both meta values are null");
             return false;
@@ -296,11 +311,14 @@ public abstract class Item implements Listener {
         if (meta == null) {
             Manager.plugin.getLogger().log(Level.SEVERE, "ERROR OCCURED WHILE USING 'isSimilar', ItemMeta is null");
         }
+
+        // Sets variables for similar item meta and similar item lore
+        // Just saves time
         ItemMeta similarItemMeta = similarItem.getItemMeta();
         List<String> similarItemLore = similarItemMeta.getLore();
 
-
-
+        // I refuse to document all of this code, so it's just a bunch of simple checks
+        // Basically, if the parent class 'Item' has a method that returns a boolean, check if similar item's one of those equals this ones
         if (!similarItem.hasItemMeta() == this.item.hasItemMeta()) return false;
 
         else if (!similarItemMeta.hasLore() == this.item.getItemMeta().hasLore()) return false;
@@ -319,7 +337,6 @@ public abstract class Item implements Listener {
 
         else if (!(similarItemMeta.isUnbreakable() == this.meta.isUnbreakable()) || !(similarItemMeta.getLocalizedName().equals(meta.getLocalizedName())) || !(similarItemMeta.hasLocalizedName() == meta.hasLocalizedName()))
             return false;
-
         else return true;
     }
 }

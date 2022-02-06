@@ -33,7 +33,7 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <outputFile>C:\Dev\Local Github Repos\ItemEngine\ItemFrameWork.jar</outputFile>
+                            <outputFile>C:\Dev\Java\Spigot\ItemFramework\ItemEngine.jar</outputFile>
                         </configuration>
                     </execution>
                 </executions>
